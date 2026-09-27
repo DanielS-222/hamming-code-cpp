@@ -85,11 +85,11 @@ Double error detected
 
 ## Error handling
 
-The program can:
+The improved version can:
 
 - detect a single-bit error
 - correct a single-bit error
-- detect an error in the additional parity bit
+- detect and correct an error in the additional parity bit
 - detect a double-bit error
 
 Example logic:
@@ -136,6 +136,131 @@ Extract information bits
 ↓
 Compare recovered data with original data
 ```
+## Project versions
+
+This repository contains two versions of the program.
+
+### 1. Course version
+
+File:
+
+```text
+main.cpp
+```
+
+This is the original version developed during my university course project.
+
+It implements:
+
+- 4-bit to 8-bit encoding
+- syndrome calculation
+- single-bit error correction
+- information bit extraction
+- multi-block data simulation
+- random error generation
+- result comparison
+
+Program flow:
+
+```text
+4-bit data
+↓
+Encode
+↓
+Add simulated error
+↓
+Decode
+↓
+Extract original data
+↓
+Compare result
+```
+
+### 2. Improved research version
+
+File:
+
+```text
+main_improved.cpp
+```
+
+This version is based on the later research work.
+
+The decoder was improved to distinguish four different states:
+
+```text
+NoError
+SingleErrorCorrected
+ParityErrorCorrected
+DoubleErrorDetected
+```
+
+The improved logic uses:
+
+```text
+Hamming syndrome
++
+overall parity
+```
+
+to determine the type of error.
+
+Possible results:
+
+```text
+Syndrome = 0
+Parity = 0
+→ No error
+
+Syndrome != 0
+Parity = 1
+→ Single-bit error
+→ Error corrected
+
+Syndrome = 0
+Parity = 1
+→ Additional parity-bit error
+→ Error corrected
+
+Syndrome != 0
+Parity = 0
+→ Double-bit error
+→ Error detected but not corrected
+```
+
+The demonstration in `main_improved.cpp` tests:
+
+- no error
+- single-bit error
+- parity-bit error
+- double-bit error
+
+## Project structure
+
+```text
+hamming-code-cpp
+├── README.md
+├── main.cpp
+└── main_improved.cpp
+```
+
+## Project development
+
+The project shows the development from a basic implementation to a version with more detailed error classification.
+
+```text
+Course project
+↓
+Basic encoding and decoding
+↓
+Research work
+↓
+Improved error detection
+↓
+Single-error correction
++
+Double-error detection
+```
 
 ## Technologies
 
@@ -145,9 +270,10 @@ Compare recovered data with original data
 - error correction
 - linear error-correcting codes
 
+
 ## Testing
 
-The project also includes testing of the implemented algorithms.
+The university research also included testing of the implemented algorithms.
 
 The testing was used to analyze the operation and performance of the encoding and decoding functions.
 
